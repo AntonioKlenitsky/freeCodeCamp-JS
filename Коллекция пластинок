@@ -1,0 +1,75 @@
+Вы создаете функцию, которая помогает поддерживать коллекцию музыкальных альбомов. 
+Коллекция организована как объект, содержащий несколько альбомов, которые также являются объектами. 
+Каждый альбом представлен в коллекции с уникальным idименем свойства.
+Внутри каждого объекта альбома существуют различные свойства, описывающие информацию об альбоме. Не во всех альбомах есть полная информация.
+
+Функция updateRecordsпринимает 4 аргумента, представленных следующими параметрами функции:
+
+records- объект, содержащий несколько отдельных альбомов
+id- число, обозначающее конкретный альбом в recordsобъекте
+prop— строка, представляющая имя свойства альбома, которое необходимо обновить.
+value— строка, содержащая информацию, используемую для обновления свойства альбома.
+Завершите функцию, используя приведенные ниже правила, чтобы изменить объект, переданный в функцию.
+
+Ваша функция всегда должна возвращать весь recordsобъект.
+Если valueэто пустая строка, удалите данное propсвойство из альбома.
+Если propэто не так tracksи valueне является пустой строкой, присвойте valueэтому альбому prop.
+Если propэто tracksи valueне пустая строка, вам необходимо обновить массив альбома tracks. Во-первых, если у альбома нет tracksсвойства, присвойте ему пустой массив. Затем добавьте valueпоследний элемент в массив альбома tracks.
+Примечание.recordCollection Для тестов используется копия объекта . Не следует напрямую изменять recordCollectionобъект.
+
+
+
+Важно понять общую цель этой функции, а затем написать код, который поддерживает эту цель.
+
+Параметр idсоответствует конкретному объекту альбома в recordsобъекте.
+
+Вам необходимо обновить этот объект альбома на основе параметров valueи prop:
+
+Ваша функция всегда должна возвращать весь recordsобъект.
+Если valueэто пустая строка, удалите данное propсвойство из альбома.
+Если propэто не так tracksи valueне является пустой строкой, присвойте valueэтому альбому prop.
+Если propесть tracksи значение не является пустой строкой, добавьте valueв конец массива альбома tracks. Вам необходимо сначала создать этот массив, если у альбома нет свойства tracks.
+
+
+//1 solution
+function updateRecords(records, id, prop, value) {
+  // Access target album in record collection
+  const album = records[id];
+  // Update the album
+  if (value === "") {
+    delete album[prop];
+  } else if (prop !== "tracks") {
+    album[prop] = value;
+  } else {
+    album["tracks"] = album["tracks"] || [];
+    album["tracks"].push(value);
+  }
+  // Return the full collection
+  return records;
+}
+//2 solution
+function updateRecords(records, id, prop, value) {
+  if (value === '') {
+    delete records[id][prop];
+  } else if (prop === "tracks") {
+    records[id][prop] = records[id][prop] || []; // shortcircuit evaluation
+    records[id][prop].push(value);
+  } else {
+    records[id][prop] = value;
+  }
+  return records;
+}
+//3 solution
+function updateRecords(records, id, prop, value) {
+  if (value === "") {
+    delete records[id][prop];
+  } else if (prop !== "tracks" && value !== "") {
+    records[id][prop] = value;
+  } else if (prop === "tracks" && value !== "") {
+    if (records[id].hasOwnProperty("tracks") === false) {
+      records[id][prop] = [];
+    }
+    records[id][prop].push(value);
+  }
+  return records;
+}
